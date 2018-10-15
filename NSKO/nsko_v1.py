@@ -7,11 +7,11 @@ def additional_constructions(ar_x, ar_cl):
     array_of_y = np.ones((1, len(ar_x)))
     # print(array_of_y[0][2])
 
-    # ar_x_with_class = []
     for i in range(len(ar_x)):
         ar_x[i].append(1 if ar_cl[i] == 0 else -1)
     print(ar_x)
 
+    matrix_v = 0
     for i in range(len(ar_x)):
         if i == 0:
             matrix_v = np.array(ar_x[i])
