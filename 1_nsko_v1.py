@@ -1,11 +1,18 @@
-import sys
+# import sys
 
 import numpy as np
 
 # default_intro
+def heavy_side(vector):
+    for i in range(len(vector)):
+        if vector[i] <= 0:
+            vector[i] = 0
+    return vector
+
+
 def additional_constructions(ar_x, ar_cl):
     array_of_y = np.ones((1, len(ar_x))).transpose()
-    print(array_of_y)
+    # print(array_of_y)
 
     for i in range(len(ar_x)):
         ar_x[i].append(1 if ar_cl[i] == 0 else -1)
@@ -18,12 +25,30 @@ def additional_constructions(ar_x, ar_cl):
         else:
             matrix_v = np.vstack((matrix_v, ar_x[i]))
     matrix_v = matrix_v
-    print(matrix_v)
-    print(matrix_v.transpose())
-    print(matrix_v[1])
-    sys.exit(64)
-    matrix_v_lamp = (matrix_v.transpose() * matrix_v) ** (-1) * matrix_v.transpose() * array_of_y
-    print(matrix_v_lamp)
+    # print(matrix_v)
+    # print(matrix_v.transpose())
+    # print(matrix_v[1])
+    # sys.exit(64)
+    v_t_v = np.dot(matrix_v.transpose(), matrix_v)
+    v_t_v_1 = np.linalg.inv(v_t_v)
+    matrix_v_lamp = np.dot(v_t_v_1, matrix_v.transpose())# * array_of_y
+    # print(matrix_v_lamp)
+    weight_vector = np.dot(matrix_v_lamp, array_of_y)
+    # print(weight_vector)
+    k = 0 # iterations
+    while True:
+        hv_func = heavy_side(np.dot(matrix_v, weight_vector) - array_of_y)
+        if np.dot(matrix_v, weight_vector) > 0:
+            return weight_vector
+        elif np.dot(matrix_v, weight_vector) - array_of_y == 0 and hv_func != 0:
+            # классы не разделимы
+            print('Classes are not separable.')
+            return -1
+        # TODO: y(k+1), w(k+1)
+
+        array_of_y += hv_func # y(k+1)
+        weight_vector = np.dot(matrix_v_lamp, array_of_y)
+        k += 1
     pass
 
 if __name__ == '__main__':
@@ -41,4 +66,3 @@ if __name__ == '__main__':
     ]
 
     additional_constructions(ar_x=array_of_X, ar_cl=array_of_classes)
-
