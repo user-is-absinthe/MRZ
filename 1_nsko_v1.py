@@ -24,7 +24,7 @@ def additional_constructions(ar_x, ar_cl):
             matrix_v = np.array(ar_x[i])
         else:
             matrix_v = np.vstack((matrix_v, ar_x[i]))
-    matrix_v = matrix_v
+    # matrix_v = matrix_v
     # print(matrix_v)
     # print(matrix_v.transpose())
     # print(matrix_v[1])
@@ -38,14 +38,13 @@ def additional_constructions(ar_x, ar_cl):
     k = 0 # iterations
     while True:
         hv_func = heavy_side(np.dot(matrix_v, weight_vector) - array_of_y)
-        if np.dot(matrix_v, weight_vector) > 0:
+        if (np.dot(matrix_v, weight_vector)).all() > 0:
             return weight_vector
-        elif np.dot(matrix_v, weight_vector) - array_of_y == 0 and hv_func != 0:
+        elif (np.dot(matrix_v, weight_vector) - array_of_y == 0).all() and hv_func != 0:
             # классы не разделимы
             print('Classes are not separable.')
             return -1
-        # TODO: y(k+1), w(k+1)
-
+        # y(k+1), w(k+1)
         array_of_y += hv_func # y(k+1)
         weight_vector = np.dot(matrix_v_lamp, array_of_y)
         k += 1
@@ -65,4 +64,5 @@ if __name__ == '__main__':
         1
     ]
 
-    additional_constructions(ar_x=array_of_X, ar_cl=array_of_classes)
+    to_test = additional_constructions(ar_x=array_of_X, ar_cl=array_of_classes)
+    print(to_test)
