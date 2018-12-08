@@ -1,8 +1,10 @@
 # import sys
 
+import load_from_file
+
 import numpy as np
 
-# default_intro
+
 def heavy_side(vector):
     for i in range(len(vector)):
         if vector[i] <= 0:
@@ -50,19 +52,23 @@ def additional_constructions(ar_x, ar_cl):
         k += 1
     pass
 
+
 if __name__ == '__main__':
 
-    array_of_X, array_of_classes = [
-        [1, 2],
-        [0, 2],
-        [-1, -3],
-        [-3, -2]
-    ], [
-        0,
-        0,
-        1,
-        1
-    ]
+    # array_of_X, array_of_classes = [
+    #     [1, 2],
+    #     [0, 2],
+    #     [-1, -3],
+    #     [-3, -2]
+    # ], [
+    #     0,
+    #     0,
+    #     1,
+    #     1
+    # ]
+
+    path = '/Users/owl/Pycharm/PycharmProjects/MRZ/NSKO/input_file.txt'
+    array_of_X, array_of_classes = load_from_file.load_for_nsko(path)
 
     to_test = additional_constructions(ar_x=array_of_X, ar_cl=array_of_classes)
     print(to_test)
